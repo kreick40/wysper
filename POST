@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi página con cuadro de texto</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px; /* Cambia el tamaño máximo del cuadro */
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+    }
+    .k1 {
+      font-size: 24px;
+      font-weight: bold;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 1px solid #ccc; /* Borde en todos los lados */
+      border-radius: 5px; /* Borde redondeado */
+      padding: 10px; /* Espacio dentro del cuadro */
+    }
+    .content {
+      margin-top: 10px;
+      max-width: 100%;
+      overflow: hidden;
+      border: 1px solid #ccc; /* Borde en todos los lados */
+      border-radius: 5px; /* Borde redondeado */
+      position: relative; /* Hace que los puntos estén posicionados relativamente */
+    }
+    .k2 {
+      width: 100%;
+      height: 100px; /* Cambia la altura del cuadro */
+      resize: none;
+      font-family: monospace; /* Para usar una fuente de espaciado fijo */
+      font-size: 14px; /* Tamaño de fuente para el texto oculto */
+      padding: 5px; /* Añade un poco de espacio dentro del textarea */
+      border: none; /* Quita el borde del cuadro de texto */
+      outline: none; /* Quita el contorno al enfocar el cuadro */
+      position: relative; /* Hace que los puntos estén posicionados relativamente */
+    }
+    .k2::placeholder {
+      color: #ccc; /* Color del texto de placeholder */
+    }
+    .dots {
+      position: absolute; /* Posiciona los puntos de manera absoluta */
+      top: 50%; /* Mueve los puntos al centro vertical del cuadro */
+      right: -10px; /* Coloca los puntos al lado derecho del cuadro */
+      transform: translateY(-50%); /* Alinea los puntos verticalmente */
+      font-size: 20px;
+      color: #ccc;
+      animation: bounce 1s infinite; /* Anima los puntos para que bajen y suban */
+    }
+    .k3 {
+      font-size: 20px; /* Mostrar solo el símbolo */
+      animation: bounce 1s infinite; /* Anima los puntos para que bajen y suban */
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(5px);
+      }
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .option {
+      margin-top: 10px;
+    }
+    .option a {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    .dropdown {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .dropdown summary {
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      display: flex; /* Mostrar flex para alinear elementos en la misma línea */
+      align-items: center; /* Alinear elementos verticalmente */
+      gap: 5px; /* Espacio entre elementos en la misma línea */
+      font-size: 0; /* Ocultar el texto */
+    }
+    .dropdown summary span {
+      font-size: 20px; /* Mostrar solo el símbolo */
+    }
+    .dropdown summary::-webkit-details-marker {
+      color: transparent; /* Ocultar el marcador "Detalles" */
+      font-size: 0; /* Asegurarse de que el marcador esté oculto en otros navegadores */
+    }
+    .dropdown details {
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+      display: none; /* Ocultar detalles por defecto */
+    }
+    .dropdown details[open] {
+      display: block; /* Mostrar detalles al hacer clic en summary */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="k1" id="header" contenteditable="true" data-maxlength="40" onclick="clearHeader()">WASP</div>
+    <div class="content">
+      <div class="dots">...</div>
+      <textarea class="k2" id="text-area" maxlength="500" placeholder="Escribe aquí"></textarea>
+    </div>
+    <div class="dropdown">
+      <summary onclick="toggleDetails()"><span class="k3">🐝</span></summary>
+      <details id="details">
+        <div class="option"><a href="https://ejemplo.com/w1" target="_blank">W1</a></div>
+        <div class="option"><a href="https://ejemplo.com/w2" target="_blank">W2</a></div>
+        <div class="option"><a href="https://ejemplo.com/w3" target="_blank">W3</a></div>
+      </details>
+    </div>
+  </div>
+  <script>
+    const textArea = document.getElementById('text-area');
+    const header = document.getElementById('header');
+    const details = document.getElementById('details');
+
+    function clearHeader() {
+      header.textContent = '';
+      header.setAttribute('contenteditable', 'true');
+      header.focus();
+    }
+
+    function toggleDetails() {
+      details.open = !details.open;
+    }
+
+    textArea.addEventListener('input', () => {
+      const placeholder = document.querySelector('.k2::placeholder');
+      if (textArea.value === '') {
+        placeholder.style.display = 'inline'; // Mostrar el placeholder
+      } else {
+        placeholder.style.display = 'none'; // Ocultar el placeholder
+      }
+
+      if (header.textContent === '') {
+        header.textContent = 'WASP';
+        header.removeAttribute('contenteditable');
+      }
+    });
+  </script>
+</body>
+</html>
